@@ -1,0 +1,13 @@
+before_install:
+- if [ "$TRAVIS_BRANCH" == "master" ]; then export DOCKER_IMAGE_VERSION=latest; else
+  export DOCKER_IMAGE_VERSION=$TRAVIS_BRANCH; fi
+- docker build -t $DOCKER_IMAGE:$DOCKER_IMAGE_VERSION .
+script:
+- docker run -i -t --rm $DOCKER_IMAGE:$DOCKER_IMAGE_VERSION --version
+- echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
+- docker push $DOCKER_IMAGE:$DOCKER_IMAGE_VERSION
+env:
+  global:
+  - DOCKER_IMAGE=dreamlabs/php-cq-phpmd
+  - secure: jbMmiQ4VMyXNaUtuyIFeoomRa5V+P8aDLZfXEC8h0KU2pflLCDkG4Ga5cEzzFWZ6b+cL4QGndjBDUokEDWyTeaw6iSIWG9QYdOo/eIRIzW5CFOFZ5EdPlvZ+eGdhc7YjftXBLFz7YBnT0JVrdPsngmFf/TuPK7e50A0fLR+Rb8SnIi2OZCz5EuM5kCVCkFJr1+tByX2TQI3wXFUPHTosoUj8QQnGgy2+xzZSGgNdG/Ft/7eQmmcdbj0fYlZLtRjprF2JS1lUMSYH7VFgxwVl9SO9NrIdVKreiYKzGVivM2IbBcWFb+Tq5X3yU+CV4Nve8EuKd0Ra+craeiGx7iVYIOjddA8Dt5/3GQ/kHlGwbzML9v2H4TRpFSv0EhB8JvJihinzqYPm0zhj1/PCsY5FnyMx+vgK/cYCzftpaiNwyUxweHtYhooRyXDTLN8zk7oIqxG+7KVeGv0zk81J/yFwn4z0JoFf8SwoZJTtagj5qBObjMXMR5JxDLvc86e5kkptl7LcALj+yF7tsQ0mXcWNWKz7Qt1zjUy5m/Cq6tTuVPxhHa1YhvgUwtpPwS33h4kKlIG92WXH4ORwJY9CvHbcq78nqCaJeXVEcuR+DO6Q6Bb0Mqxg41scotVHyYXfhJT0iUW1YBUvBVO1vg/2rdh6dcd+E7Ta05VQbtkYXfRKfWw=
+  - secure: Ob+Djgdh2+q2RCBLl+TIZz01icalGFDGYpxXTFX6fEv94NLvds/YogNwXL6UfkhmMENvCkjubOnONTe66iuog5i2AoN3EPAoTpeER+xsTnGXKh+CbLa1q8g9LhSKZrrKhXfVf7KWlA9wgU34tBKsxTsAjyahEJJPcEXZhXn1DH0ph2KU6u2xQJAiDZ9Zm64Xrpb/AbApP2xYNxirH6KSubdivG+t9QodpM65tVKxhoah1QG06s+8UhgZcuKy2jo/xErz4fwiHTfTXel7WHjW0lA7hn/vIs7BN8SHvB+PVj1jtk9a+qnWJekqNvCPiCADeqUloKRBs5CON7tGEqsWj04RkoyyVsTzUtO36ZlZxwJDSrhj7zwnwZ+nUBNRffk2ONZx4kwy9hQm6o5uKkghu6FysA9mVzG2JHxBYEwMorO3o0vSppT2gUZo7uoytwBmVLRgoYA0039CuILYdim2cksLCdu5zrg3PaKvPe4NJMyxQTg1/udOvZOo4IaOQk3+ewOKVRu/n2qTO3DH/najAYMbtqO3vb39/nCRjfy22eLeKfDt5BR5m4V4BCPYUopKo9TNSKWZOXpp5+RQVC8L9pvXXbNhDrB7WxAreSHFB689inyazuk0CX26XCSpvdoAwzg519h3e2qsdPNyUAlxJAi07/rBQb7ON+7Wdoffwhw=
